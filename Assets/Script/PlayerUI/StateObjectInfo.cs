@@ -11,7 +11,7 @@ public class StateObjectInfo : MonoBehaviour
 
     public void check()
     {
-        Ray ray = new Ray(camera.transform.position, camera.transform.forward);
+        Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
         if (Physics.Raycast(ray, out RaycastHit hitInfo))
         {
              text.text = hitInfo.collider.gameObject.name;
