@@ -11,7 +11,6 @@ public class PlayerState : MonoBehaviour
 
     void Update()
     {
-        hp.Subtract(hp.passiveValue);
         if(info != null) info.check();
     }
 }

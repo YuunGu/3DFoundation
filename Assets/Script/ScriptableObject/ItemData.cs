@@ -5,15 +5,17 @@ using UnityEngine;
 
 public enum ItemType
 {
-    Equipable,
     Consumable,
-    Resource
+    TimeLimit,
+    OneUse
 }
+
+
 
 public enum ConsumableType
 {
     Health,
-    Hunger
+    Dash
 }
 [Serializable]
 public class ItemDataConsumbale

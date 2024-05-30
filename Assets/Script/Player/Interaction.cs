@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Interaction : MonoBehaviour
 {
@@ -21,19 +20,22 @@ public class Interaction : MonoBehaviour
         camera = Camera.main;
     }
 
+    // Update is called once per frame
     void Update()
     {
-        if(Time.time - lastCheckTime > checkRate) 
-        { 
+        if (Time.time - lastCheckTime > checkRate)
+        {
             lastCheckTime = Time.time;
-            Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
 
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, maxCheckDistance, layerMask))
+            Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask))
             {
-                if (hitInfo.collider.gameObject != curInteractGameObject)
+                if (hit.collider.gameObject != curInteractGameObject)
                 {
-                    curInteractGameObject = hitInfo.collider.gameObject;
-                    curInteractable = hitInfo.collider.GetComponent<IInteractable>();
+                    curInteractGameObject = hit.collider.gameObject;
+                    curInteractable = hit.collider.GetComponent<IInteractable>();
                     SetPromptText();
                 }
             }
@@ -49,6 +51,17 @@ public class Interaction : MonoBehaviour
     private void SetPromptText()
     {
         promptText.gameObject.SetActive(true);
-        promptText.text = curInteractable.GetInteractaPrompt();
+        promptText.text = curInteractable.GetInteractPrompt();
+    }
+
+    public void OnInteractInput(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started && curInteractable != null)
+        {
+            curInteractable.OnInteract();
+            curInteractGameObject = null;
+            curInteractable = null;
+            promptText.gameObject.SetActive(false);
+        }
     }
 }

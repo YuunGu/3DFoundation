@@ -10,10 +10,14 @@ public class StateDash : MonoBehaviour
     public GameObject dashPrefab;
 
     private Queue<GameObject> dashList = new Queue<GameObject>();
-    public void AddDashCount()
-    {        
-        GameObject dashCount = Instantiate(dashPrefab, dashBar.transform);
-        dashList.Enqueue(dashCount);
+    public void AddDashCount(float i)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            GameObject dashCount = Instantiate(dashPrefab, dashBar.transform);
+            dashList.Enqueue(dashCount);
+        }
+        
     }
 
     public bool DashCheck()
@@ -29,8 +33,9 @@ public class StateDash : MonoBehaviour
     }
 
     public void ReturnDash()
-    {
-        GameObject removedDash = dashList.Dequeue();
+    {   
+       
+        GameObject removedDash = dashList.Dequeue();        
         Destroy(removedDash);
     }
 }

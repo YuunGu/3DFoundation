@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,10 +24,15 @@ public class PlayerController : MonoBehaviour
     private float camCurXRot;
     public float lookSensitivity;
     private Vector2 mouseDelta;
+    public bool canLook = true;
+
 
     [Header("Dash")]
     public float dashPower;
 
+
+    public Action inventory;
+    
 
     private void Awake()
     {
@@ -34,8 +41,9 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
     }
+
     void FixedUpdate()
     {
         Move();
@@ -43,7 +51,10 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (canLook)
+        {
         CameraLook();
+        }
     }
 
     void Move()
@@ -86,7 +97,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && (IsGrounded()||IsWalls()))
         {
-            rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
+            rigidbody.AddForce(Vector2.up * (jumpPower), ForceMode.Impulse);
         }
     }
 
@@ -98,6 +109,23 @@ public class PlayerController : MonoBehaviour
             CharacterManager.Instance.Player.state.uiState.dash.ReturnDash();
         }
     }
+
+    public void OnInventory(InputAction.CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Started)
+        {
+            inventory?.Invoke();
+            ToggleCursor();
+        }
+    }
+    
+    void ToggleCursor()
+    {
+        bool toggle = Cursor.lockState == CursorLockMode.Locked;
+        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
+        canLook = !toggle;
+    }
+
     bool IsGrounded()
     {
         Ray[] rays = new Ray[4]
@@ -139,4 +167,5 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
+    
 }

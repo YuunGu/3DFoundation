@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6417660226529062390}
   - component: {fileID: 6489533951336141740}
   - component: {fileID: 4516076205152476191}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 4731137771906833933}
   - component: {fileID: 4454314732623466154}
   - component: {fileID: 4170514603912021288}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Item_Speed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,4 +178,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7161808e160a7743a0c066126fbded5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData: {fileID: 11400000, guid: 4f9bd2569da8503438c44bd8d2da29d3, type: 2}
+  data: {fileID: 11400000, guid: 4f9bd2569da8503438c44bd8d2da29d3, type: 2}

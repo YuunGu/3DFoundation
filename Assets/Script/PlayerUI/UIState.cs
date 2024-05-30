@@ -11,6 +11,6 @@ public class UIState : MonoBehaviour
     void Start()
     {
         CharacterManager.Instance.Player.state.uiState = this;
-        dash.AddDashCount();
+        dash.AddDashCount(1);
     }
 }
